@@ -2,10 +2,18 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>7 COLORS!!!</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>🌈 7 COLORS!!! 🌈</title>
 
     <style>
+        /* ========================================
+           基本設定
+        ======================================== */
+
         * {
             box-sizing: border-box;
         }
@@ -18,6 +26,8 @@
         }
 
         body {
+            position: relative;
+
             overflow: hidden;
 
             display: flex;
@@ -27,244 +37,747 @@
             font-family:
                 "Arial Black",
                 Impact,
+                Haettenschweiler,
                 sans-serif;
 
             color: white;
 
+            /*
+             * JavaScriptで色を変更する
+             */
             background: rgb(255, 0, 0);
 
-            transition: background-color 0.05s linear;
+            /*
+             * 少しだけ色を明るく見せる
+             */
+            transition: background-color 0.03s linear;
         }
 
-        /* 背景のキラキラ */
+
+        /* ========================================
+           背景
+        ======================================== */
+
+        /*
+         * 巨大な放射状の光
+         */
         body::before {
             content: "";
+
             position: fixed;
-            inset: -50%;
+            z-index: 0;
+
+            width: 200vmax;
+            height: 200vmax;
+
+            left: 50%;
+            top: 50%;
+
+            transform: translate(-50%, -50%);
 
             background:
                 repeating-conic-gradient(
                     from 0deg,
-                    rgba(255,255,255,0.12) 0deg 10deg,
-                    transparent 10deg 20deg
+
+                    rgba(255, 255, 255, 0.20) 0deg 7deg,
+                    transparent 7deg 14deg
                 );
 
-            animation: rotate 20s linear infinite;
+            mix-blend-mode: screen;
 
-            pointer-events: none;
+            animation:
+                backgroundRotate 12s linear infinite;
         }
+
+
+        /*
+         * 白い光のベール
+         */
+        body::after {
+            content: "";
+
+            position: fixed;
+            z-index: 1;
+
+            inset: -30%;
+
+            background:
+                radial-gradient(
+                    circle at center,
+
+                    rgba(255, 255, 255, 0.40) 0%,
+                    rgba(255, 255, 255, 0.15) 15%,
+                    transparent 45%
+                );
+
+            mix-blend-mode: screen;
+
+            animation:
+                glow 1.5s ease-in-out infinite alternate;
+        }
+
+
+        /* ========================================
+           メイン
+        ======================================== */
 
         .container {
             position: relative;
-            z-index: 2;
+            z-index: 10;
+
+            width: 100%;
 
             text-align: center;
 
             transform: rotate(-3deg);
+
+            animation:
+                containerMove 1.5s ease-in-out infinite alternate;
         }
 
-        .small {
-            font-size: clamp(1rem, 3vw, 2rem);
-            letter-spacing: 0.3em;
 
+        /* ========================================
+           WELCOME
+        ======================================== */
+
+        .welcome {
+            margin-bottom: 1rem;
+
+            font-size:
+                clamp(1.2rem, 4vw, 3rem);
+
+            letter-spacing: 0.25em;
+
+            color: white;
+
+            /*
+             * 黒＋白＋虹色の多重発光
+             */
             text-shadow:
-                3px 3px 0 #000,
-                0 0 10px white;
+                3px 3px 0 black,
+                -3px -3px 0 black,
+                0 0 5px white,
+                0 0 15px white,
+                0 0 30px white;
+
+            animation:
+                welcomeFlash 0.8s infinite alternate;
         }
+
+
+        /* ========================================
+           メインタイトル
+        ======================================== */
 
         h1 {
             margin: 0;
 
-            font-size: clamp(4rem, 15vw, 12rem);
-            line-height: 0.9;
+            /*
+             * 画面サイズに合わせて巨大化
+             */
+            font-size:
+                clamp(4rem, 16vw, 13rem);
 
-            letter-spacing: -0.05em;
+            line-height: 0.85;
 
+            letter-spacing: -0.07em;
+
+            /*
+             * 白文字
+             */
             color: white;
 
-            -webkit-text-stroke: 5px black;
+            /*
+             * 黒い太い縁取り
+             */
+            -webkit-text-stroke:
+                clamp(3px, 0.7vw, 8px)
+                black;
 
+            /*
+             * 超大量の影
+             */
             text-shadow:
-                8px 8px 0 #ff00ff,
-                14px 14px 0 #00ffff,
-                20px 20px 0 rgba(0, 0, 0, 0.5);
 
-            animation: shake 0.8s infinite alternate;
+                /* 黒い立体影 */
+                8px 8px 0 black,
+                14px 14px 0 black,
+
+                /* ピンク */
+                0 0 5px #ff00ff,
+                0 0 15px #ff00ff,
+                0 0 30px #ff00ff,
+
+                /* 水色 */
+                0 0 50px #00ffff,
+
+                /* 白 */
+                0 0 70px white;
+
+            /*
+             * 激しく動く
+             */
+            animation:
+                titleShake 0.18s infinite alternate,
+                titleGlow 0.7s infinite alternate;
         }
+
+
+        /* ========================================
+           虹色サブタイトル
+        ======================================== */
 
         .rainbow {
             margin-top: 2rem;
 
-            font-size: clamp(1.2rem, 4vw, 2.5rem);
-            letter-spacing: 0.15em;
+            font-size:
+                clamp(1.2rem, 4vw, 3rem);
 
-            background: linear-gradient(
-                90deg,
-                red,
-                orange,
-                yellow,
-                lime,
-                cyan,
-                blue,
-                magenta,
-                red
-            );
+            letter-spacing: 0.1em;
 
-            background-size: 300% 100%;
+            /*
+             * 虹色グラデーション
+             */
+            background:
+                linear-gradient(
+                    90deg,
 
+                    #ff0000,
+                    #ff8000,
+                    #ffff00,
+                    #00ff00,
+                    #00ffff,
+                    #0080ff,
+                    #8000ff,
+                    #ff00ff,
+                    #ff0000
+                );
+
+            background-size: 400% 100%;
+
+            /*
+             * 文字の中だけ虹色
+             */
             -webkit-background-clip: text;
             background-clip: text;
+
             color: transparent;
 
-            animation: rainbow 2s linear infinite;
+            /*
+             * 白い縁
+             */
+            -webkit-text-stroke:
+                2px white;
 
-            -webkit-text-stroke: 1px white;
+            /*
+             * 虹を動かす
+             */
+            animation:
+                rainbowMove 1.5s linear infinite,
+                rainbowScale 0.7s ease-in-out infinite alternate;
         }
+
+
+        /* ========================================
+           飛び回る記号
+        ======================================== */
 
         .sparkle {
             position: fixed;
 
-            font-size: 2rem;
+            z-index: 20;
 
-            animation:
-                float 3s ease-in-out infinite,
-                spin 4s linear infinite;
+            color: white;
+
+            font-size:
+                clamp(1.5rem, 5vw, 4rem);
+
+            /*
+             * 光らせる
+             */
+            text-shadow:
+                0 0 5px white,
+                0 0 15px white,
+                0 0 30px #00ffff,
+                0 0 50px #ff00ff;
 
             pointer-events: none;
+
+            user-select: none;
         }
+
 
         .s1 {
-            top: 10%;
-            left: 12%;
+            top: 8%;
+            left: 8%;
+
+            animation:
+                sparkle1 2s ease-in-out infinite;
         }
+
 
         .s2 {
-            top: 20%;
-            right: 15%;
-            animation-delay: -1s;
+            top: 12%;
+            right: 10%;
+
+            animation:
+                sparkle2 1.7s ease-in-out infinite;
         }
+
 
         .s3 {
-            bottom: 15%;
-            left: 20%;
-            animation-delay: -2s;
+            bottom: 12%;
+            left: 12%;
+
+            animation:
+                sparkle3 2.3s ease-in-out infinite;
         }
+
 
         .s4 {
-            bottom: 10%;
-            right: 12%;
-            animation-delay: -0.5s;
+            bottom: 8%;
+            right: 10%;
+
+            animation:
+                sparkle4 1.8s ease-in-out infinite;
         }
 
-        @keyframes rainbow {
+
+        .s5 {
+            top: 45%;
+            left: 3%;
+
+            animation:
+                sparkle5 2.1s ease-in-out infinite;
+        }
+
+
+        .s6 {
+            top: 40%;
+            right: 3%;
+
+            animation:
+                sparkle6 1.9s ease-in-out infinite;
+        }
+
+
+        /* ========================================
+           点滅する小さい文字
+        ======================================== */
+
+        .flash {
+            position: fixed;
+
+            z-index: 15;
+
+            color: white;
+
+            font-size:
+                clamp(0.8rem, 2vw, 1.5rem);
+
+            letter-spacing: 0.1em;
+
+            text-shadow:
+                2px 2px 0 black,
+                0 0 10px white,
+                0 0 20px white;
+
+            pointer-events: none;
+
+            animation:
+                flash 0.3s steps(2) infinite;
+        }
+
+
+        .f1 {
+            top: 25%;
+            left: 10%;
+        }
+
+
+        .f2 {
+            top: 30%;
+            right: 8%;
+        }
+
+
+        .f3 {
+            bottom: 25%;
+            left: 7%;
+        }
+
+
+        .f4 {
+            bottom: 30%;
+            right: 7%;
+        }
+
+
+        /* ========================================
+           アニメーション
+        ======================================== */
+
+        @keyframes backgroundRotate {
+
             from {
-                background-position: 0% 50%;
+                transform:
+                    translate(-50%, -50%)
+                    rotate(0deg);
             }
 
             to {
-                background-position: 300% 50%;
+                transform:
+                    translate(-50%, -50%)
+                    rotate(360deg);
             }
         }
 
-        @keyframes rotate {
+
+        @keyframes glow {
+
             from {
-                transform: rotate(0deg);
+                opacity: 0.35;
+
+                transform:
+                    scale(0.9);
             }
 
             to {
-                transform: rotate(360deg);
+                opacity: 0.8;
+
+                transform:
+                    scale(1.15);
             }
         }
 
-        @keyframes shake {
+
+        @keyframes containerMove {
+
             from {
-                transform: translate(-2px, -2px) rotate(-1deg);
+                transform:
+                    rotate(-3deg)
+                    translateY(-5px);
             }
 
             to {
-                transform: translate(2px, 2px) rotate(1deg);
+                transform:
+                    rotate(3deg)
+                    translateY(5px);
             }
         }
 
-        @keyframes float {
+
+        @keyframes welcomeFlash {
+
+            from {
+                opacity: 0.7;
+
+                transform:
+                    scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+
+                transform:
+                    scale(1.05);
+            }
+        }
+
+
+        @keyframes titleShake {
+
+            from {
+                transform:
+                    translate(-3px, -2px)
+                    rotate(-1deg);
+            }
+
+            to {
+                transform:
+                    translate(3px, 2px)
+                    rotate(1deg);
+            }
+        }
+
+
+        @keyframes titleGlow {
+
+            from {
+                filter:
+                    brightness(1);
+            }
+
+            to {
+                filter:
+                    brightness(1.5);
+            }
+        }
+
+
+        @keyframes rainbowMove {
+
+            from {
+                background-position:
+                    0% 50%;
+            }
+
+            to {
+                background-position:
+                    400% 50%;
+            }
+        }
+
+
+        @keyframes rainbowScale {
+
+            from {
+                transform:
+                    scale(0.95);
+            }
+
+            to {
+                transform:
+                    scale(1.05);
+            }
+        }
+
+
+        @keyframes sparkle1 {
+
             0%, 100% {
-                transform: translateY(0) scale(1);
+                transform:
+                    translate(0, 0)
+                    rotate(0deg)
+                    scale(1);
             }
 
             50% {
-                transform: translateY(-25px) scale(1.3);
+                transform:
+                    translate(40px, 30px)
+                    rotate(180deg)
+                    scale(1.8);
             }
         }
 
-        @keyframes spin {
-            from {
-                rotate: 0deg;
+
+        @keyframes sparkle2 {
+
+            0%, 100% {
+                transform:
+                    translate(0, 0)
+                    rotate(0deg)
+                    scale(1);
             }
 
-            to {
-                rotate: 360deg;
+            50% {
+                transform:
+                    translate(-50px, 40px)
+                    rotate(-180deg)
+                    scale(1.5);
+            }
+        }
+
+
+        @keyframes sparkle3 {
+
+            0%, 100% {
+                transform:
+                    translate(0, 0)
+                    rotate(0deg)
+                    scale(1);
+            }
+
+            50% {
+                transform:
+                    translate(50px, -40px)
+                    rotate(180deg)
+                    scale(1.7);
+            }
+        }
+
+
+        @keyframes sparkle4 {
+
+            0%, 100% {
+                transform:
+                    translate(0, 0)
+                    rotate(0deg)
+                    scale(1);
+            }
+
+            50% {
+                transform:
+                    translate(-40px, -50px)
+                    rotate(-180deg)
+                    scale(1.6);
+            }
+        }
+
+
+        @keyframes sparkle5 {
+
+            0%, 100% {
+                transform:
+                    translateX(0)
+                    rotate(0deg);
+            }
+
+            50% {
+                transform:
+                    translateX(60px)
+                    rotate(360deg);
+            }
+        }
+
+
+        @keyframes sparkle6 {
+
+            0%, 100% {
+                transform:
+                    translateX(0)
+                    rotate(0deg);
+            }
+
+            50% {
+                transform:
+                    translateX(-60px)
+                    rotate(-360deg);
+            }
+        }
+
+
+        @keyframes flash {
+
+            0% {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+
+            100% {
+                opacity: 0;
+                transform: scale(0.8);
             }
         }
     </style>
 </head>
 
+
 <body>
+
+    <!-- ========================================
+         飛び回る星
+    ========================================= -->
 
     <div class="sparkle s1">✦</div>
     <div class="sparkle s2">★</div>
     <div class="sparkle s3">✧</div>
-    <div class="sparkle s4">★</div>
+    <div class="sparkle s4">✦</div>
+    <div class="sparkle s5">★</div>
+    <div class="sparkle s6">✧</div>
 
-    <div class="container">
-        <div class="small">WELCOME TO</div>
 
-        <h1>7 COLORS!!!</h1>
+    <!-- ========================================
+         点滅文字
+    ========================================= -->
+
+    <div class="flash f1">
+        WOW!!!
+    </div>
+
+    <div class="flash f2">
+        AMAZING!!!
+    </div>
+
+    <div class="flash f3">
+        🌈🌈🌈
+    </div>
+
+    <div class="flash f4">
+        SUPER!!!
+    </div>
+
+
+    <!-- ========================================
+         メイン
+    ========================================= -->
+
+    <main class="container">
+
+        <div class="welcome">
+            ★★★ WELCOME!!! ★★★
+        </div>
+
+
+        <h1>
+            7 COLORS!!!
+        </h1>
+
 
         <div class="rainbow">
             🌈 LET'S GO!!! 🌈
         </div>
-    </div>
+
+    </main>
+
 
     <script>
-        const colors = [
-            [255,   0,   0], // 赤
-            [255, 165,   0], // 橙
-            [255, 255,   0], // 黄
-            [  0, 200,   0], // 緑
-            [  0, 220, 255], // 水色
-            [  0,  80, 255], // 青
-            [160,   0, 255]  // 紫
-        ];
+        /*
+         * ========================================
+         * 7色の背景
+         * ========================================
+         *
+         * HSLを使うことで、
+         *
+         * 色相 → 0～360°
+         * 彩度 → 100%
+         * 明度 → 50%
+         *
+         * として、鮮やかな色を保ったまま
+         * 7色を連続的に変化させる。
+         */
 
         const duration = 10000;
 
-        function interpolateColor(a, b, t) {
-            return [
-                Math.round(a[0] + (b[0] - a[0]) * t),
-                Math.round(a[1] + (b[1] - a[1]) * t),
-                Math.round(a[2] + (b[2] - a[2]) * t)
-            ];
-        }
 
         function update(time) {
-            const progress = (time % duration) / duration;
 
-            const position = progress * colors.length;
+            /*
+             * 0～1を繰り返す
+             */
+            const progress =
+                (time % duration) / duration;
 
-            const index = Math.floor(position);
-            const t = position - index;
 
-            const color1 = colors[index % colors.length];
-            const color2 = colors[(index + 1) % colors.length];
+            /*
+             * 色相を0～360°にする
+             */
+            const hue =
+                progress * 360;
 
-            const color = interpolateColor(color1, color2, t);
 
+            /*
+             * 鮮やかな色を設定
+             */
             document.body.style.backgroundColor =
-                `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
+                `hsl(${hue}, 100%, 50%)`;
 
+
+            /*
+             * 次のフレーム
+             */
             requestAnimationFrame(update);
         }
 
+
+        /*
+         * ページを開いた瞬間から開始
+         */
         requestAnimationFrame(update);
     </script>
 
