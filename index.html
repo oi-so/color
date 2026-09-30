@@ -1,785 +1,800 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>🌈 7 COLORS!!! 🌈</title>
-
-    <style>
-        /* ========================================
-           基本設定
-        ======================================== */
-
-        * {
-            box-sizing: border-box;
-        }
-
-        html,
-        body {
-            width: 100%;
-            height: 100%;
-            margin: 0;
-        }
-
-        body {
-            position: relative;
-
-            overflow: hidden;
-
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-            font-family:
-                "Arial Black",
-                Impact,
-                Haettenschweiler,
-                sans-serif;
-
-            color: white;
-
-            /*
-             * JavaScriptで色を変更する
-             */
-            background: rgb(255, 0, 0);
-
-            /*
-             * 少しだけ色を明るく見せる
-             */
-            transition: background-color 0.03s linear;
-        }
-
-
-        /* ========================================
-           背景
-        ======================================== */
-
-        /*
-         * 巨大な放射状の光
-         */
-        body::before {
-            content: "";
-
-            position: fixed;
-            z-index: 0;
-
-            width: 200vmax;
-            height: 200vmax;
-
-            left: 50%;
-            top: 50%;
-
-            transform: translate(-50%, -50%);
-
-            background:
-                repeating-conic-gradient(
-                    from 0deg,
-
-                    rgba(255, 255, 255, 0.20) 0deg 7deg,
-                    transparent 7deg 14deg
-                );
-
-            mix-blend-mode: screen;
-
-            animation:
-                backgroundRotate 12s linear infinite;
-        }
-
-
-        /*
-         * 白い光のベール
-         */
-        body::after {
-            content: "";
-
-            position: fixed;
-            z-index: 1;
-
-            inset: -30%;
-
-            background:
-                radial-gradient(
-                    circle at center,
-
-                    rgba(255, 255, 255, 0.40) 0%,
-                    rgba(255, 255, 255, 0.15) 15%,
-                    transparent 45%
-                );
-
-            mix-blend-mode: screen;
-
-            animation:
-                glow 1.5s ease-in-out infinite alternate;
-        }
-
-
-        /* ========================================
-           メイン
-        ======================================== */
-
-        .container {
-            position: relative;
-            z-index: 10;
-
-            width: 100%;
-
-            text-align: center;
-
-            transform: rotate(-3deg);
-
-            animation:
-                containerMove 1.5s ease-in-out infinite alternate;
-        }
-
-
-        /* ========================================
-           WELCOME
-        ======================================== */
-
-        .welcome {
-            margin-bottom: 1rem;
-
-            font-size:
-                clamp(1.2rem, 4vw, 3rem);
-
-            letter-spacing: 0.25em;
-
-            color: white;
-
-            /*
-             * 黒＋白＋虹色の多重発光
-             */
-            text-shadow:
-                3px 3px 0 black,
-                -3px -3px 0 black,
-                0 0 5px white,
-                0 0 15px white,
-                0 0 30px white;
-
-            animation:
-                welcomeFlash 0.8s infinite alternate;
-        }
-
-
-        /* ========================================
-           メインタイトル
-        ======================================== */
-
-        h1 {
-            margin: 0;
-
-            /*
-             * 画面サイズに合わせて巨大化
-             */
-            font-size:
-                clamp(4rem, 16vw, 13rem);
-
-            line-height: 0.85;
-
-            letter-spacing: -0.07em;
-
-            /*
-             * 白文字
-             */
-            color: white;
-
-            /*
-             * 黒い太い縁取り
-             */
-            -webkit-text-stroke:
-                clamp(3px, 0.7vw, 8px)
-                black;
-
-            /*
-             * 超大量の影
-             */
-            text-shadow:
-
-                /* 黒い立体影 */
-                8px 8px 0 black,
-                14px 14px 0 black,
-
-                /* ピンク */
-                0 0 5px #ff00ff,
-                0 0 15px #ff00ff,
-                0 0 30px #ff00ff,
-
-                /* 水色 */
-                0 0 50px #00ffff,
-
-                /* 白 */
-                0 0 70px white;
-
-            /*
-             * 激しく動く
-             */
-            animation:
-                titleShake 0.18s infinite alternate,
-                titleGlow 0.7s infinite alternate;
-        }
-
-
-        /* ========================================
-           虹色サブタイトル
-        ======================================== */
-
-        .rainbow {
-            margin-top: 2rem;
-
-            font-size:
-                clamp(1.2rem, 4vw, 3rem);
-
-            letter-spacing: 0.1em;
-
-            /*
-             * 虹色グラデーション
-             */
-            background:
-                linear-gradient(
-                    90deg,
-
-                    #ff0000,
-                    #ff8000,
-                    #ffff00,
-                    #00ff00,
-                    #00ffff,
-                    #0080ff,
-                    #8000ff,
-                    #ff00ff,
-                    #ff0000
-                );
-
-            background-size: 400% 100%;
-
-            /*
-             * 文字の中だけ虹色
-             */
-            -webkit-background-clip: text;
-            background-clip: text;
-
-            color: transparent;
-
-            /*
-             * 白い縁
-             */
-            -webkit-text-stroke:
-                2px white;
-
-            /*
-             * 虹を動かす
-             */
-            animation:
-                rainbowMove 1.5s linear infinite,
-                rainbowScale 0.7s ease-in-out infinite alternate;
-        }
-
-
-        /* ========================================
-           飛び回る記号
-        ======================================== */
-
-        .sparkle {
-            position: fixed;
-
-            z-index: 20;
-
-            color: white;
-
-            font-size:
-                clamp(1.5rem, 5vw, 4rem);
-
-            /*
-             * 光らせる
-             */
-            text-shadow:
-                0 0 5px white,
-                0 0 15px white,
-                0 0 30px #00ffff,
-                0 0 50px #ff00ff;
-
-            pointer-events: none;
-
-            user-select: none;
-        }
-
-
-        .s1 {
-            top: 8%;
-            left: 8%;
-
-            animation:
-                sparkle1 2s ease-in-out infinite;
-        }
-
-
-        .s2 {
-            top: 12%;
-            right: 10%;
-
-            animation:
-                sparkle2 1.7s ease-in-out infinite;
-        }
-
-
-        .s3 {
-            bottom: 12%;
-            left: 12%;
-
-            animation:
-                sparkle3 2.3s ease-in-out infinite;
-        }
-
-
-        .s4 {
-            bottom: 8%;
-            right: 10%;
-
-            animation:
-                sparkle4 1.8s ease-in-out infinite;
-        }
-
-
-        .s5 {
-            top: 45%;
-            left: 3%;
-
-            animation:
-                sparkle5 2.1s ease-in-out infinite;
-        }
-
-
-        .s6 {
-            top: 40%;
-            right: 3%;
-
-            animation:
-                sparkle6 1.9s ease-in-out infinite;
-        }
-
-
-        /* ========================================
-           点滅する小さい文字
-        ======================================== */
-
-        .flash {
-            position: fixed;
-
-            z-index: 15;
-
-            color: white;
-
-            font-size:
-                clamp(0.8rem, 2vw, 1.5rem);
-
-            letter-spacing: 0.1em;
-
-            text-shadow:
-                2px 2px 0 black,
-                0 0 10px white,
-                0 0 20px white;
-
-            pointer-events: none;
-
-            animation:
-                flash 0.3s steps(2) infinite;
-        }
-
-
-        .f1 {
-            top: 25%;
-            left: 10%;
-        }
-
-
-        .f2 {
-            top: 30%;
-            right: 8%;
-        }
-
-
-        .f3 {
-            bottom: 25%;
-            left: 7%;
-        }
-
-
-        .f4 {
-            bottom: 30%;
-            right: 7%;
-        }
-
-
-        /* ========================================
-           アニメーション
-        ======================================== */
-
-        @keyframes backgroundRotate {
-
-            from {
-                transform:
-                    translate(-50%, -50%)
-                    rotate(0deg);
-            }
-
-            to {
-                transform:
-                    translate(-50%, -50%)
-                    rotate(360deg);
-            }
-        }
-
-
-        @keyframes glow {
-
-            from {
-                opacity: 0.35;
-
-                transform:
-                    scale(0.9);
-            }
-
-            to {
-                opacity: 0.8;
-
-                transform:
-                    scale(1.15);
-            }
-        }
-
-
-        @keyframes containerMove {
-
-            from {
-                transform:
-                    rotate(-3deg)
-                    translateY(-5px);
-            }
-
-            to {
-                transform:
-                    rotate(3deg)
-                    translateY(5px);
-            }
-        }
-
-
-        @keyframes welcomeFlash {
-
-            from {
-                opacity: 0.7;
-
-                transform:
-                    scale(0.95);
-            }
-
-            to {
-                opacity: 1;
-
-                transform:
-                    scale(1.05);
-            }
-        }
-
-
-        @keyframes titleShake {
-
-            from {
-                transform:
-                    translate(-3px, -2px)
-                    rotate(-1deg);
-            }
-
-            to {
-                transform:
-                    translate(3px, 2px)
-                    rotate(1deg);
-            }
-        }
-
-
-        @keyframes titleGlow {
-
-            from {
-                filter:
-                    brightness(1);
-            }
-
-            to {
-                filter:
-                    brightness(1.5);
-            }
-        }
-
-
-        @keyframes rainbowMove {
-
-            from {
-                background-position:
-                    0% 50%;
-            }
-
-            to {
-                background-position:
-                    400% 50%;
-            }
-        }
-
-
-        @keyframes rainbowScale {
-
-            from {
-                transform:
-                    scale(0.95);
-            }
-
-            to {
-                transform:
-                    scale(1.05);
-            }
-        }
-
-
-        @keyframes sparkle1 {
-
-            0%, 100% {
-                transform:
-                    translate(0, 0)
-                    rotate(0deg)
-                    scale(1);
-            }
-
-            50% {
-                transform:
-                    translate(40px, 30px)
-                    rotate(180deg)
-                    scale(1.8);
-            }
-        }
-
-
-        @keyframes sparkle2 {
-
-            0%, 100% {
-                transform:
-                    translate(0, 0)
-                    rotate(0deg)
-                    scale(1);
-            }
-
-            50% {
-                transform:
-                    translate(-50px, 40px)
-                    rotate(-180deg)
-                    scale(1.5);
-            }
-        }
-
-
-        @keyframes sparkle3 {
-
-            0%, 100% {
-                transform:
-                    translate(0, 0)
-                    rotate(0deg)
-                    scale(1);
-            }
-
-            50% {
-                transform:
-                    translate(50px, -40px)
-                    rotate(180deg)
-                    scale(1.7);
-            }
-        }
-
-
-        @keyframes sparkle4 {
-
-            0%, 100% {
-                transform:
-                    translate(0, 0)
-                    rotate(0deg)
-                    scale(1);
-            }
-
-            50% {
-                transform:
-                    translate(-40px, -50px)
-                    rotate(-180deg)
-                    scale(1.6);
-            }
-        }
-
-
-        @keyframes sparkle5 {
-
-            0%, 100% {
-                transform:
-                    translateX(0)
-                    rotate(0deg);
-            }
-
-            50% {
-                transform:
-                    translateX(60px)
-                    rotate(360deg);
-            }
-        }
-
-
-        @keyframes sparkle6 {
-
-            0%, 100% {
-                transform:
-                    translateX(0)
-                    rotate(0deg);
-            }
-
-            50% {
-                transform:
-                    translateX(-60px)
-                    rotate(-360deg);
-            }
-        }
-
-
-        @keyframes flash {
-
-            0% {
-                opacity: 0;
-                transform: scale(0.8);
-            }
-
-            50% {
-                opacity: 1;
-                transform: scale(1.2);
-            }
-
-            100% {
-                opacity: 0;
-                transform: scale(0.8);
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>★★★ 超ド派手サイト ★★★</title>
+<style>
+/* =========================================================
+   RESET
+========================================================= */
+* {
+    box-sizing: border-box;
+}
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+}
+body {
+    overflow: hidden;
+    font-family:
+        "Arial Black",
+        Impact,
+        sans-serif;
+    background: #ff0000;
+    color: white;
+    cursor: default;
+}
+/* =========================================================
+   超巨大背景
+========================================================= */
+.background {
+    position: fixed;
+    inset: -100%;
+    width: 300%;
+    height: 300%;
+    z-index: 0;
+    background:
+        repeating-conic-gradient(
+            from 0deg,
+            #ff0000 0deg 10deg,
+            #ffff00 10deg 20deg,
+            #00ff00 20deg 30deg,
+            #00ffff 30deg 40deg,
+            #0000ff 40deg 50deg,
+            #ff00ff 50deg 60deg
+        );
+    animation:
+        bgSpin 3s linear infinite,
+        bgHue 1s linear infinite;
+}
+/* =========================================================
+   さらに派手なストライプ
+========================================================= */
+.background::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        repeating-linear-gradient(
+            45deg,
+            rgba(255,255,255,0.25) 0px,
+            rgba(255,255,255,0.25) 12px,
+            transparent 12px,
+            transparent 30px
+        );
+    animation:
+        stripe 0.4s linear infinite;
+}
+/* =========================================================
+   中央の巨大光
+========================================================= */
+.flash-background {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    background:
+        radial-gradient(
+            circle,
+            rgba(255,255,255,0.9) 0%,
+            rgba(255,255,255,0.3) 15%,
+            transparent 50%
+        );
+    mix-blend-mode: screen;
+    animation:
+        flashBg 0.35s infinite alternate;
+}
+/* =========================================================
+   メイン
+========================================================= */
+.main {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    transform:
+        rotate(-3deg);
+    animation:
+        screenShake 0.12s infinite alternate;
+}
+/* =========================================================
+   巨大コンテンツ
+========================================================= */
+.content {
+    position: relative;
+    width: 100%;
+}
+/* =========================================================
+   WARNING
+========================================================= */
+.warning {
+    font-size:
+        clamp(1rem, 5vw, 4rem);
+    color: #ffff00;
+    background: #ff0000;
+    border:
+        8px solid #ffff00;
+    padding:
+        5px 20px;
+    display: inline-block;
+    transform:
+        rotate(3deg);
+    text-shadow:
+        4px 4px 0 #000;
+    animation:
+        warning 0.25s infinite alternate;
+}
+/* =========================================================
+   超巨大タイトル
+========================================================= */
+h1 {
+    margin: 10px 0;
+    font-size:
+        clamp(4rem, 18vw, 16rem);
+    line-height: 0.75;
+    white-space: nowrap;
+    color: white;
+    -webkit-text-stroke:
+        clamp(4px, 1vw, 12px)
+        black;
+    text-shadow:
+        /* 黒 */
+        10px 10px 0 black,
+        20px 20px 0 black,
+        /* 赤 */
+        0 0 10px red,
+        0 0 25px red,
+        /* 黄色 */
+        0 0 40px yellow,
+        /* 水色 */
+        0 0 60px cyan,
+        /* ピンク */
+        0 0 100px magenta;
+    animation:
+        title 0.25s infinite alternate,
+        titleColor 0.5s infinite linear;
+}
+/* =========================================================
+   サブタイトル
+========================================================= */
+.subtitle {
+    font-size:
+        clamp(1.5rem, 6vw, 5rem);
+    margin-top: 30px;
+    color: yellow;
+    -webkit-text-stroke:
+        3px black;
+    text-shadow:
+        5px 5px 0 red,
+        10px 10px 0 blue,
+        15px 15px 0 magenta;
+    animation:
+        subtitle 0.5s infinite alternate;
+}
+/* =========================================================
+   下の謎メッセージ
+========================================================= */
+.message {
+    margin-top: 20px;
+    font-size:
+        clamp(0.8rem, 3vw, 2rem);
+    color: white;
+    text-shadow:
+        3px 3px 0 black;
+    animation:
+        blink 0.2s steps(2) infinite;
+}
+/* =========================================================
+   浮遊する文字
+========================================================= */
+.floating {
+    position: fixed;
+    z-index: 20;
+    font-size:
+        clamp(1rem, 5vw, 4rem);
+    font-weight: 900;
+    pointer-events: none;
+    white-space: nowrap;
+    text-shadow:
+        4px 4px 0 black,
+        0 0 10px white,
+        0 0 30px currentColor;
+    -webkit-text-stroke:
+        2px black;
+}
+/* 左上 */
+.f1 {
+    top: 5%;
+    left: 2%;
+    color: #ffff00;
+    animation:
+        move1 1.5s infinite linear;
+}
+/* 右上 */
+.f2 {
+    top: 10%;
+    right: 2%;
+    color: #00ffff;
+    animation:
+        move2 1.2s infinite linear;
+}
+/* 左下 */
+.f3 {
+    bottom: 5%;
+    left: 2%;
+    color: #ff00ff;
+    animation:
+        move3 1.7s infinite linear;
+}
+/* 右下 */
+.f4 {
+    bottom: 8%;
+    right: 2%;
+    color: #00ff00;
+    animation:
+        move4 1.3s infinite linear;
+}
+/* =========================================================
+   星・絵文字
+========================================================= */
+.star {
+    position: fixed;
+    z-index: 30;
+    font-size:
+        clamp(1.5rem, 6vw, 5rem);
+    pointer-events: none;
+    filter:
+        drop-shadow(0 0 10px white)
+        drop-shadow(0 0 20px currentColor);
+}
+.s1 {
+    top: 15%;
+    left: 15%;
+    animation:
+        star1 1s infinite;
+}
+.s2 {
+    top: 20%;
+    right: 15%;
+    animation:
+        star2 0.8s infinite;
+}
+.s3 {
+    bottom: 20%;
+    left: 15%;
+    animation:
+        star3 1.2s infinite;
+}
+.s4 {
+    bottom: 15%;
+    right: 15%;
+    animation:
+        star4 0.9s infinite;
+}
+.s5 {
+    top: 50%;
+    left: 3%;
+    animation:
+        star5 1.1s infinite;
+}
+.s6 {
+    top: 50%;
+    right: 3%;
+    animation:
+        star6 0.7s infinite;
+}
+/* =========================================================
+   画面端のカラフルな枠
+========================================================= */
+.border {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    pointer-events: none;
+    border:
+        20px solid transparent;
+    border-image:
+        linear-gradient(
+            90deg,
+            red,
+            yellow,
+            lime,
+            cyan,
+            blue,
+            magenta,
+            red
+        )
+        1;
+    animation:
+        borderHue 0.5s linear infinite;
+}
+/* =========================================================
+   キラキラ大量
+========================================================= */
+.sparkles {
+    position: fixed;
+    inset: 0;
+    z-index: 25;
+    pointer-events: none;
+    font-size:
+        clamp(1rem, 3vw, 2.5rem);
+    font-weight: bold;
+}
+.sparkles span {
+    position: absolute;
+    animation:
+        sparkle 0.8s infinite alternate;
+}
+.sparkles span:nth-child(1) {
+    left: 5%;
+    top: 30%;
+}
+.sparkles span:nth-child(2) {
+    left: 25%;
+    top: 10%;
+}
+.sparkles span:nth-child(3) {
+    left: 40%;
+    top: 20%;
+}
+.sparkles span:nth-child(4) {
+    left: 60%;
+    top: 8%;
+}
+.sparkles span:nth-child(5) {
+    left: 80%;
+    top: 35%;
+}
+.sparkles span:nth-child(6) {
+    left: 10%;
+    top: 70%;
+}
+.sparkles span:nth-child(7) {
+    left: 30%;
+    top: 80%;
+}
+.sparkles span:nth-child(8) {
+    left: 50%;
+    top: 75%;
+}
+.sparkles span:nth-child(9) {
+    left: 70%;
+    top: 85%;
+}
+.sparkles span:nth-child(10) {
+    left: 90%;
+    top: 65%;
+}
+/* =========================================================
+   アニメーション
+========================================================= */
+@keyframes bgSpin {
+    from {
+        transform:
+            rotate(0deg)
+            scale(1);
+    }
+    to {
+        transform:
+            rotate(360deg)
+            scale(1);
+    }
+}
+@keyframes bgHue {
+    from {
+        filter:
+            hue-rotate(0deg)
+            saturate(2)
+            brightness(1.2);
+    }
+    to {
+        filter:
+            hue-rotate(360deg)
+            saturate(2)
+            brightness(1.2);
+    }
+}
+@keyframes stripe {
+    from {
+        transform:
+            translate(0, 0);
+    }
+    to {
+        transform:
+            translate(50px, 50px);
+    }
+}
+@keyframes flashBg {
+    from {
+        opacity: 0.2;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 0.9;
+        transform: scale(1.3);
+    }
+}
+@keyframes screenShake {
+    from {
+        transform:
+            rotate(-3deg)
+            translate(-3px, -2px);
+    }
+    to {
+        transform:
+            rotate(3deg)
+            translate(3px, 2px);
+    }
+}
+@keyframes warning {
+    from {
+        transform:
+            rotate(-5deg)
+            scale(0.9);
+        background: red;
+    }
+    to {
+        transform:
+            rotate(5deg)
+            scale(1.1);
+        background: magenta;
+    }
+}
+@keyframes title {
+    from {
+        transform:
+            scale(0.95)
+            rotate(-2deg)
+            skewX(-2deg);
+    }
+    to {
+        transform:
+            scale(1.08)
+            rotate(2deg)
+            skewX(2deg);
+    }
+}
+@keyframes titleColor {
+    0% {
+        filter:
+            hue-rotate(0deg)
+            brightness(1);
+    }
+    50% {
+        filter:
+            hue-rotate(180deg)
+            brightness(2);
+    }
+    100% {
+        filter:
+            hue-rotate(360deg)
+            brightness(1);
+    }
+}
+@keyframes subtitle {
+    from {
+        transform:
+            scale(0.9)
+            rotate(-4deg);
+    }
+    to {
+        transform:
+            scale(1.15)
+            rotate(4deg);
+    }
+}
+@keyframes blink {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+/* =========================================================
+   浮遊文字
+========================================================= */
+@keyframes move1 {
+    0% {
+        transform:
+            translate(0, 0)
+            rotate(-20deg);
+    }
+    25% {
+        transform:
+            translate(100px, 80px)
+            rotate(20deg)
+            scale(1.5);
+    }
+    50% {
+        transform:
+            translate(200px, -30px)
+            rotate(-20deg)
+            scale(0.7);
+    }
+    75% {
+        transform:
+            translate(50px, 150px)
+            rotate(30deg)
+            scale(1.3);
+    }
+    100% {
+        transform:
+            translate(0, 0)
+            rotate(-20deg);
+    }
+}
+@keyframes move2 {
+    0% {
+        transform:
+            translate(0, 0)
+            rotate(20deg);
+    }
+    50% {
+        transform:
+            translate(-180px, 100px)
+            rotate(-30deg)
+            scale(1.6);
+    }
+    100% {
+        transform:
+            translate(0, 0)
+            rotate(20deg);
+    }
+}
+@keyframes move3 {
+    0% {
+        transform:
+            translate(0, 0)
+            rotate(10deg);
+    }
+    50% {
+        transform:
+            translate(150px, -100px)
+            rotate(360deg)
+            scale(1.5);
+    }
+    100% {
+        transform:
+            translate(0, 0)
+            rotate(10deg);
+    }
+}
+@keyframes move4 {
+    0% {
+        transform:
+            translate(0, 0)
+            rotate(-10deg);
+    }
+    50% {
+        transform:
+            translate(-150px, -120px)
+            rotate(360deg)
+            scale(1.4);
+    }
+    100% {
+        transform:
+            translate(0, 0)
+            rotate(-10deg);
+    }
+}
+/* =========================================================
+   星
+========================================================= */
+@keyframes star1 {
+    0%, 100% {
+        transform:
+            rotate(0deg)
+            scale(0.5);
+    }
+    50% {
+        transform:
+            rotate(180deg)
+            scale(2);
+    }
+}
+@keyframes star2 {
+    0%, 100% {
+        transform:
+            rotate(0deg)
+            scale(1);
+    }
+    50% {
+        transform:
+            rotate(-180deg)
+            scale(2.2);
+    }
+}
+@keyframes star3 {
+    0%, 100% {
+        transform:
+            rotate(0deg)
+            scale(0.6);
+    }
+    50% {
+        transform:
+            rotate(360deg)
+            scale(1.8);
+    }
+}
+@keyframes star4 {
+    0%, 100% {
+        transform:
+            rotate(0deg)
+            scale(1);
+    }
+    50% {
+        transform:
+            rotate(360deg)
+            scale(2.5);
+    }
+}
+@keyframes star5 {
+    0%, 100% {
+        transform:
+            translateX(0)
+            rotate(0deg);
+    }
+    50% {
+        transform:
+            translateX(100px)
+            rotate(360deg);
+    }
+}
+@keyframes star6 {
+    0%, 100% {
+        transform:
+            translateX(0)
+            rotate(0deg);
+    }
+    50% {
+        transform:
+            translateX(-100px)
+            rotate(-360deg);
+    }
+}
+/* =========================================================
+   キラキラ
+========================================================= */
+@keyframes sparkle {
+    0% {
+        opacity: 0.2;
+        transform:
+            scale(0.5)
+            rotate(0deg);
+    }
+    50% {
+        opacity: 1;
+        transform:
+            scale(2)
+            rotate(180deg);
+    }
+    100% {
+        opacity: 0.3;
+        transform:
+            scale(0.7)
+            rotate(360deg);
+    }
+}
+/* =========================================================
+   枠
+========================================================= */
+@keyframes borderHue {
+    from {
+        filter:
+            hue-rotate(0deg)
+            brightness(1.5);
+    }
+    to {
+        filter:
+            hue-rotate(360deg)
+            brightness(2);
+    }
+}
+</style>
 </head>
-
-
 <body>
-
-    <!-- ========================================
-         飛び回る星
-    ========================================= -->
-
-    <div class="sparkle s1">✦</div>
-    <div class="sparkle s2">★</div>
-    <div class="sparkle s3">✧</div>
-    <div class="sparkle s4">✦</div>
-    <div class="sparkle s5">★</div>
-    <div class="sparkle s6">✧</div>
-
-
-    <!-- ========================================
-         点滅文字
-    ========================================= -->
-
-    <div class="flash f1">
-        WOW!!!
+    <!-- 巨大背景 -->
+    <div class="background"></div>
+    <!-- 中央発光 -->
+    <div class="flash-background"></div>
+    <!-- =====================================================
+         浮遊文字
+    ====================================================== -->
+    <div class="floating f1">
+        WARNING!!!
     </div>
-
-    <div class="flash f2">
-        AMAZING!!!
-    </div>
-
-    <div class="flash f3">
-        🌈🌈🌈
-    </div>
-
-    <div class="flash f4">
+    <div class="floating f2">
         SUPER!!!
     </div>
-
-
-    <!-- ========================================
+    <div class="floating f3">
+        AMAZING!!!
+    </div>
+    <div class="floating f4">
+        WOW!!!
+    </div>
+    <!-- =====================================================
+         星
+    ====================================================== -->
+    <div class="star s1">⭐</div>
+    <div class="star s2">🌟</div>
+    <div class="star s3">💥</div>
+    <div class="star s4">✨</div>
+    <div class="star s5">🌈</div>
+    <div class="star s6">🔥</div>
+    <!-- =====================================================
+         キラキラ
+    ====================================================== -->
+    <div class="sparkles">
+        <span>★</span>
+        <span>✦</span>
+        <span>✧</span>
+        <span>💥</span>
+        <span>★</span>
+        <span>✨</span>
+        <span>✦</span>
+        <span>🌈</span>
+        <span>★</span>
+        <span>💫</span>
+    </div>
+    <!-- =====================================================
          メイン
-    ========================================= -->
-
-    <main class="container">
-
-        <div class="welcome">
-            ★★★ WELCOME!!! ★★★
+    ====================================================== -->
+    <main class="main">
+        <div class="content">
+            <div class="warning">
+                ⚠️ WARNING ⚠️
+            </div>
+            <h1>
+                7 COLORS!!!
+            </h1>
+            <div class="subtitle">
+                🌈🌈🌈 超ド派手!!! 🌈🌈🌈
+            </div>
+            <div class="message">
+                ★★★ ようこそ!!! ★★★<br>
+                🔥🔥🔥 これはヤバいサイトです 🔥🔥🔥
+            </div>
         </div>
-
-
-        <h1>
-            7 COLORS!!!
-        </h1>
-
-
-        <div class="rainbow">
-            🌈 LET'S GO!!! 🌈
-        </div>
-
     </main>
-
-
+    <!-- 画面端 -->
+    <div class="border"></div>
+    <!-- =====================================================
+         JavaScript
+    ====================================================== -->
     <script>
         /*
-         * ========================================
-         * 7色の背景
-         * ========================================
-         *
-         * HSLを使うことで、
-         *
-         * 色相 → 0～360°
-         * 彩度 → 100%
-         * 明度 → 50%
-         *
-         * として、鮮やかな色を保ったまま
-         * 7色を連続的に変化させる。
+         * 背景色を高速で変更
          */
-
-        const duration = 10000;
-
-
-        function update(time) {
-
+        let hue = 0;
+        function animate() {
+            hue += 2;
+            if (hue >= 360) {
+                hue = 0;
+            }
             /*
-             * 0～1を繰り返す
-             */
-            const progress =
-                (time % duration) / duration;
-
-
-            /*
-             * 色相を0～360°にする
-             */
-            const hue =
-                progress * 360;
-
-
-            /*
-             * 鮮やかな色を設定
+             * とにかく鮮やかに
              */
             document.body.style.backgroundColor =
                 `hsl(${hue}, 100%, 50%)`;
-
-
             /*
              * 次のフレーム
              */
-            requestAnimationFrame(update);
+            requestAnimationFrame(animate);
         }
-
-
         /*
          * ページを開いた瞬間から開始
          */
-        requestAnimationFrame(update);
+        animate();
     </script>
-
 </body>
 </html>
